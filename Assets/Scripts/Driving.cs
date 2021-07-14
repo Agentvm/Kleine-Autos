@@ -14,23 +14,23 @@ public class Driving : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space)) 
+        if(Input.GetKey(KeyCode.Space)) 
         {
             _rigidbody.AddForce(_thrust * Vector3.up);
         }
-        if(Input.GetKeyDown(KeyCode.A))
+        if(Input.GetKey(KeyCode.A))
 	    {
             _rigidbody.AddForce(_thrust * -Vector3.forward);
         }
-        if(Input.GetKeyDown(KeyCode.D))
+        if(Input.GetKey(KeyCode.D))
         {
             _rigidbody.AddForce(_thrust * Vector3.forward);
         }
-        if(Input.GetKeyDown(KeyCode.W))
+        if(Input.GetKey(KeyCode.W))
         {
             _rigidbody.AddForce(_thrust * -Vector3.right);
         }
-        if(Input.GetKeyDown(KeyCode.S))
+        if(Input.GetKey(KeyCode.S))
         {
             _rigidbody.AddForce(_thrust * Vector3.right);
         }
