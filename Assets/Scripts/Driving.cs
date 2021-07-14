@@ -18,19 +18,19 @@ public class Driving : MonoBehaviour
         {
             _rigidbody.AddForce(_thrust * Vector3.up);
         }
-        if(Input.GetKeyDown(KeyCode.LeftArrow))
+        if(Input.GetKeyDown(KeyCode.A))
 	    {
             _rigidbody.AddForce(_thrust * -Vector3.forward);
         }
-        if(Input.GetKeyDown(KeyCode.RightArrow))
+        if(Input.GetKeyDown(KeyCode.D))
         {
             _rigidbody.AddForce(_thrust * Vector3.forward);
         }
-        if(Input.GetKeyDown(KeyCode.UpArrow))
+        if(Input.GetKeyDown(KeyCode.W))
         {
             _rigidbody.AddForce(_thrust * -Vector3.right);
         }
-        if(Input.GetKeyDown(KeyCode.DownArrow))
+        if(Input.GetKeyDown(KeyCode.S))
         {
             _rigidbody.AddForce(_thrust * Vector3.right);
         }
