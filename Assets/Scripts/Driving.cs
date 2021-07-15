@@ -16,23 +16,23 @@ public class Driving : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.Space)) 
         {
-            _rigidbody.AddForce(_thrust * Vector3.up);
+            _rigidbody.AddForce(_thrust * transform.up);
         }
         if(Input.GetKey(KeyCode.A))
 	    {
-            _rigidbody.AddForce(_thrust * -Vector3.forward);
+            transform.RotateAround(transform.position, Vector3.up, -0.5f);
         }
         if(Input.GetKey(KeyCode.D))
-        {
-            _rigidbody.AddForce(_thrust * Vector3.forward);
+        { 
+            transform.RotateAround(transform.position, Vector3.up, 0.5f);
         }
         if(Input.GetKey(KeyCode.W))
         {
-            _rigidbody.AddForce(_thrust * -Vector3.right);
+            _rigidbody.AddForce(_thrust * transform.forward);
         }
         if(Input.GetKey(KeyCode.S))
         {
-            _rigidbody.AddForce(_thrust * Vector3.right);
+            _rigidbody.AddForce(_thrust * -transform.forward);
         }
     }
 }
