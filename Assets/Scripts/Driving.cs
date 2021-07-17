@@ -1,12 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Driving : MonoBehaviour
 {
     public Rigidbody _rigidbody; 
     public float _thrust = 0.0f;
-    public float _torque = 0.0f;
+
+    private Vector2 _direction = new Vector2(0.0f, 0.0f);
+    private bool _jumping = false;
 
     void Start()
     {
@@ -14,27 +15,21 @@ public class Driving : MonoBehaviour
         _rigidbody.ResetCenterOfMass();
     }
 
-    void FixedUpdate()
-    {
-        if(Input.GetKey(KeyCode.Space)) 
-        {
-            _rigidbody.AddForce(_thrust * transform.up * Time.deltaTime);
-        }
-        if(Input.GetKey(KeyCode.A))
-	    {
-            _rigidbody.AddTorque(transform.up * -_torque * Time.deltaTime);
-        }
-        if(Input.GetKey(KeyCode.D))
-        { 
-            _rigidbody.AddTorque(transform.up * _torque * Time.deltaTime);
-        }
-        if(Input.GetKey(KeyCode.W))
-        {
-            _rigidbody.AddForce(_thrust * transform.forward * Time.deltaTime);
-        }
-        if(Input.GetKey(KeyCode.S))
-        {
-            _rigidbody.AddForce(_thrust * -transform.forward * Time.deltaTime);
-        }
+    void OnMove(InputValue value) {
+        _direction = value.Get<Vector2>();
+        Debug.Log("Moving");
+    }
+
+    void OnJump() {
+        _jumping = true;
+        Debug.Log("Jumping");
+    }
+
+    void FixedUpdate() {
+        if(_jumping) _rigidbody.AddForce(_thrust * transform.up * Time.deltaTime);
+        _jumping = false;
+
+        Vector3 direction = new Vector3(_direction.x, 0.0f, _direction.y);
+        _rigidbody.AddForce(_thrust * direction * Time.deltaTime);
     }
 }
