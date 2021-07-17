@@ -4,7 +4,8 @@ using UnityEngine.InputSystem;
 public class Driving : MonoBehaviour
 {
     public Rigidbody _rigidbody; 
-    public float _thrust = 0.0f;
+    public float _velocity = 0.0f;
+    public float _torque = 0.0f;
 
     private Vector2 _direction = new Vector2(0.0f, 0.0f);
     private bool _jumping = false;
@@ -26,10 +27,21 @@ public class Driving : MonoBehaviour
     }
 
     void FixedUpdate() {
-        if(_jumping) _rigidbody.AddForce(_thrust * transform.up * Time.deltaTime);
+        Vector3 velocity = new Vector3(0.0f, 0.0f, 0.0f);
+
+        // Check for upward velocity 
+        if(_jumping) velocity = velocity + 10 * _velocity * transform.up * Time.deltaTime;
         _jumping = false;
 
-        Vector3 direction = new Vector3(_direction.x, 0.0f, _direction.y);
-        _rigidbody.AddForce(_thrust * direction * Time.deltaTime);
+        // Check for foward velocity 
+        velocity = velocity + _velocity * _direction.y * transform.forward * Time.deltaTime;
+
+        // Calculate angular velocity based on forward velocity 
+        Vector3 angularVelocity = new Vector3(0.0f, velocity.normalized.magnitude * _torque * _direction.x * Time.deltaTime, 0.0f);
+
+        // Apply velocity to rigid body 
+        _rigidbody.velocity = _rigidbody.velocity + velocity;
+        //_rigidbody.angularVelocity = _rigidbody.angularVelocity  + angularVelocity;
+        transform.Rotate(angularVelocity, Space.Self);
     }
 }
