@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-[RequireComponent (typeof (PlayerInput))]
+
+
 public abstract class AimableWeapon : MonoBehaviour
 {
-    // This bulk could rather be moved to a projectileWeapon subclass
+    public const float MaxRaycastDistance = 120f;
+
+    // This bulk could rather be moved to a ProjectileWeapon subclass
     // Serialized Fields
     [SerializeField]
     private GameObject _projectilePrefab;
@@ -13,33 +16,48 @@ public abstract class AimableWeapon : MonoBehaviour
     [Tooltip("The Point where the projectile will be spawned")]
     private Transform _muzzlePoint;
     [SerializeField]
-    private PlayerInput _playerInput;
+    [Tooltip("(optional) The Transform which to turn. Defaults to this")]
+    private Transform _turningPoint;
 
     // Private Fields
     // this should become the current aim position by using a Raycast
     private Vector3 currentMousePosition;
     private bool _fireButtonPressed;
+    private Ray _ray;
+    private RaycastHit _raycastHit;
+    
 
     // Properties
     public GameObject ProjectilePrefab { get => _projectilePrefab; }
     public Transform MuzzlePoint { get => _muzzlePoint;}
-    protected Vector3 CurrentMousePosition { get => MouseAction.ReadValue<Vector2> (); }
+    public Vector2 CurrentMousePosition { get => MouseAction.ReadValue<Vector2> (); }
     public bool FireButtonPressed { get => _fireButtonPressed; private set => _fireButtonPressed = value; }
+    public Vector3 CurrentAimPosition
+    {
+        get
+        {
+            _ray = Camera.main.ScreenPointToRay (CurrentMousePosition);
+            Physics.Raycast (_ray, out _raycastHit, MaxRaycastDistance);
+
+            return _raycastHit.point;
+        }
+    }
 
     // CachedProperties
     #region CachedPropertires
-    // Automatically get the PlayerInput Component which has to be attached to the same GameObject, when it is needed
-    //private PlayerInput _playerInput;
-    //public PlayerInput PlayerInput
-    //{
-    //    get
-    //    {
-    //        if ( _playerInput == null )
-    //            _playerInput = this.GetComponent<PlayerInput> ();
+    // When it is needed, automatically find the first PlayerInput Component in the scene (expensive)
+    // This will fail, when the private field _playerInput is used instead of the Property PlayerInput below
+    private PlayerInput _playerInput;
+    public PlayerInput PlayerInput
+    {
+        get
+        {
+            if ( _playerInput == null )
+                _playerInput = GameObject.FindObjectOfType<PlayerInput> ();
 
-    //        return _playerInput;
-    //    }
-    //}
+            return _playerInput;
+        }
+    }
 
     private InputAction _mouseAction = null;
     public InputAction MouseAction
@@ -47,7 +65,7 @@ public abstract class AimableWeapon : MonoBehaviour
         get
         {
             if ( _mouseAction == null )
-                _mouseAction = _playerInput.actions["MousePosition"];
+                _mouseAction = PlayerInput.actions["MousePosition"];
 
             return _mouseAction;
         }
@@ -59,7 +77,7 @@ public abstract class AimableWeapon : MonoBehaviour
         get
         {
             if ( _fireAction == null )
-                _fireAction = _playerInput.actions["Fire"];
+                _fireAction = PlayerInput.actions["Fire"];
 
             return _fireAction;
         }
@@ -68,9 +86,6 @@ public abstract class AimableWeapon : MonoBehaviour
 
     private void Start ()
     {
-        if ( _playerInput == null )
-            Debug.Log ($"{this.gameObject.name} PlayerInput is not set.");
-
         FireAction.performed += ShotsFired;
     }
 
@@ -79,8 +94,17 @@ public abstract class AimableWeapon : MonoBehaviour
         FireButtonPressed = true;
     }
 
+    private void Aim()
+    {
+        if ( _turningPoint == null )
+            this.transform.LookAt (CurrentAimPosition);
+        else
+            _turningPoint.LookAt (CurrentAimPosition);
+    }
+
     private void FixedUpdate ()
     {
+        Aim ();
         FrameUpdate (FireButtonPressed, CurrentMousePosition);
         FireButtonPressed = false;
     }
