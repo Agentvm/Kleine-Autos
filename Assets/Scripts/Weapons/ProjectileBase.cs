@@ -13,9 +13,11 @@ public abstract class ProjectileBase : MonoBehaviour
     [Range(0, 20)]
     [Tooltip("Damage when hitting another Player")]
     private int _damage = 6;
+
     [SerializeField]
     [Range (1f, 100f)]
     private float _projectileSpeed = 30f;
+
     [SerializeField]
     [Range(-1f, 10f)]
     [Tooltip("Time until projectile disappears")]
@@ -31,25 +33,9 @@ public abstract class ProjectileBase : MonoBehaviour
     public float DestructionTime { get => _destructionTime; private set => _destructionTime = value; }
     public int? OwnerPlayerIndex { get => _ownerPlayerIndex; set => _ownerPlayerIndex = value; }
 
-    // CachedProperties
-    #region CachedProperties
-    private Collider _collider = null;
-    public Collider Collider
-    {
-        get
-        {
-            if ( _collider == null )
-                _collider = this.GetComponent<Collider> ();
-
-            return _collider;
-        }
-    }
-    #endregion
-
     private void Start ()
     {
         _currentTime = Time.time;
-        //Collider.enabled = false; // Disable until collision with Weapon has ended
     }
 
     // Update is called once per frame
@@ -64,22 +50,32 @@ public abstract class ProjectileBase : MonoBehaviour
     // Let the subclass implement the exact behaviour at each frame
     protected abstract void FrameUpdate ();
 
-    // Triggered by the attached Collider Component
-    private async void OnCollisionEnter ( Collision collision )
+    // Triggered by the attached Collider Component (which has to be set to 'isTrigger', while having a Rigidbody Component which is kinematic)
+    private async void OnTriggerEnter ( Collider collision )
     {
-        if ( collision.transform.GetComponent<AimableWeapon> () )
+        // Return if colliding with Projectile
+        if ( collision.transform.GetComponent<ProjectileBase> () )
             return;
 
+        // Check for collision with other player
         if ( this.OwnerPlayerIndex == null )
             Debug.LogWarning ($"{nameof (ProjectileBase)}: OwnerPlayerIndex is not set! Please make use of the SpawnProjectile in your script derived from >{nameof(ProjectileWeapon)}<");
 
         PlayerInput otherPlayer = collision.transform.GetComponent<PlayerInput>();
-        if ( otherPlayer != null && otherPlayer.playerIndex != this.OwnerPlayerIndex)
+        if ( otherPlayer != null && otherPlayer.playerIndex != this.OwnerPlayerIndex )
         {
             // Actually subtract damage here
             Debug.Log ($"Did {Damage} Damage to {otherPlayer.gameObject.name}");
-        }
 
+            await DelayedDestructionAsync ();
+            return;
+        }
+        
+        // Colliding with own weapon or car, don't destroy
+        if ( collision.transform.GetComponent<AimableWeapon> () || collision.transform.GetComponent<PlayerInput>())
+            return;
+
+        // Destroy on Collision after a delay which has to be specified by subclass
         await DelayedDestructionAsync ();
     }
 

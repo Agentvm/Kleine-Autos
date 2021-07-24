@@ -19,22 +19,25 @@ public class RocketLauncher : ProjectileWeapon
     {
         if ( fireButtonPressed && ProjectilePrefab != null )
         {
-            SpawnRocket (hitInfo.transform, MuzzlePoint);
-            await DelayedSpawnRocketAsync (hitInfo.transform, SecondMuzzlePoint);
+            SpawnRocket (MuzzlePoint, hitInfo.transform);
+            await DelayedSpawnRocketAsync (SecondMuzzlePoint, hitInfo.transform);
         }
     }
 
-    private void SpawnRocket(Transform target, Transform parent)
+    private void SpawnRocket(Transform spawnPose, Transform target )
     {
-        RocketProjectile rocketProjectile = SpawnProjectile (MuzzlePoint.position, MuzzlePoint.rotation) as RocketProjectile;
+        RocketProjectile rocketProjectile = SpawnProjectile (spawnPose.position, spawnPose.rotation) as RocketProjectile;
 
-        if ( transform != null && transform.GetComponent<Driving>())
-            rocketProjectile.Target = transform;
+        if ( target != null && (target.GetComponent<UnityEngine.InputSystem.PlayerInput>() || target.GetComponent<AimableWeapon> ()) )
+        {
+            Debug.Log ("Setting Rocket Target to: " + target.name);
+            rocketProjectile.Target = target;
+        }
     }
 
-    private async Task DelayedSpawnRocketAsync (Transform target, Transform parentToInstantiateUnder)
+    private async Task DelayedSpawnRocketAsync (Transform spawnPose, Transform target)
     {
         await Task.Delay (_projectileOffsetMilliseconds);
-        SpawnRocket (target, parentToInstantiateUnder);
+        SpawnRocket (spawnPose, target);
     }
 }

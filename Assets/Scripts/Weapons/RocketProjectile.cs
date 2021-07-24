@@ -21,7 +21,7 @@ public class RocketProjectile : ProjectileBase
         {
             // Slowly rotate to target using Slerp
             Quaternion rotationToTarget = Quaternion.LookRotation(Target.position - this.transform.position);
-            this.transform.rotation = Quaternion.Slerp (transform.rotation, rotationToTarget, _turningSpeed * Time.deltaTime * 10000000f);
+            this.transform.rotation = Quaternion.Slerp (transform.rotation, rotationToTarget, _turningSpeed * Time.deltaTime);
         }
     }
 

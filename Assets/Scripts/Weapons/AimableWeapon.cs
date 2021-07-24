@@ -8,14 +8,21 @@ using UnityEngine.InputSystem;
 /// </summary>
 public abstract class AimableWeapon : MonoBehaviour
 {
+    // Constant
     public const float MaxRaycastDistance = 120f;
 
+    // Serialized Fields
     [SerializeField]
     [Tooltip("(optional) The Transform which to turn. Defaults to this")]
     private Transform _turningPoint;
+
     [SerializeField]
     [Tooltip("The Point where the projectile will be spawned")]
     private Transform _muzzlePoint;
+
+    [SerializeField]
+    [Tooltip("How much should the Weapon aim upwards from the actual Raycast point?")]
+    private float _zCorrection;
 
     // Private Fields
     // this should become the current aim position by using a Raycast
@@ -114,9 +121,9 @@ public abstract class AimableWeapon : MonoBehaviour
     private void Aim()
     {
         if ( _turningPoint == null )
-            this.transform.LookAt (CurrentAimPosition);
+            this.transform.LookAt (CurrentAimPosition + Vector3.up * _zCorrection);
         else
-            _turningPoint.LookAt (CurrentAimPosition);
+            _turningPoint.LookAt (CurrentAimPosition + Vector3.up * _zCorrection);
     }
 
     private void FixedUpdate ()
