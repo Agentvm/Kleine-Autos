@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-[RequireComponent (typeof (PlayerInput))]
+
+
 public abstract class AimableWeapon : MonoBehaviour
 {
     // This bulk could rather be moved to a projectileWeapon subclass
@@ -12,8 +13,6 @@ public abstract class AimableWeapon : MonoBehaviour
     [SerializeField]
     [Tooltip("The Point where the projectile will be spawned")]
     private Transform _muzzlePoint;
-    [SerializeField]
-    private PlayerInput _playerInput;
 
     // Private Fields
     // this should become the current aim position by using a Raycast
@@ -28,18 +27,19 @@ public abstract class AimableWeapon : MonoBehaviour
 
     // CachedProperties
     #region CachedPropertires
-    // Automatically get the PlayerInput Component which has to be attached to the same GameObject, when it is needed
-    //private PlayerInput _playerInput;
-    //public PlayerInput PlayerInput
-    //{
-    //    get
-    //    {
-    //        if ( _playerInput == null )
-    //            _playerInput = this.GetComponent<PlayerInput> ();
+    // When it is needed, automatically find the first PlayerInput Component in the scene (expensive)
+    // This will fail, when the private field _playerInput is used instead of the Property PlayerInput below
+    private PlayerInput _playerInput;
+    public PlayerInput PlayerInput
+    {
+        get
+        {
+            if ( _playerInput == null )
+                _playerInput = GameObject.FindObjectOfType<PlayerInput> ();
 
-    //        return _playerInput;
-    //    }
-    //}
+            return _playerInput;
+        }
+    }
 
     private InputAction _mouseAction = null;
     public InputAction MouseAction
@@ -47,7 +47,7 @@ public abstract class AimableWeapon : MonoBehaviour
         get
         {
             if ( _mouseAction == null )
-                _mouseAction = _playerInput.actions["MousePosition"];
+                _mouseAction = PlayerInput.actions["MousePosition"];
 
             return _mouseAction;
         }
@@ -59,7 +59,7 @@ public abstract class AimableWeapon : MonoBehaviour
         get
         {
             if ( _fireAction == null )
-                _fireAction = _playerInput.actions["Fire"];
+                _fireAction = PlayerInput.actions["Fire"];
 
             return _fireAction;
         }
@@ -68,9 +68,6 @@ public abstract class AimableWeapon : MonoBehaviour
 
     private void Start ()
     {
-        if ( _playerInput == null )
-            Debug.Log ($"{this.gameObject.name} PlayerInput is not set.");
-
         FireAction.performed += ShotsFired;
     }
 

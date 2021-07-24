@@ -826,11 +826,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5704620773938687090, guid: 51fb1d3a8962383479fbf541a2f4a72c, type: 3}
   m_PrefabInstance: {fileID: 1729197785}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1159688920 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4845560140755432860, guid: 22a68fcd5894195409667a0d25ba696b, type: 3}
-  m_PrefabInstance: {fileID: 3745771531101172719}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1437306838
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1242,10 +1237,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1670406629}
     m_Modifications:
-    - target: {fileID: 3117928388597783468, guid: 22a68fcd5894195409667a0d25ba696b, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6050881745409467355, guid: 22a68fcd5894195409667a0d25ba696b, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1294,18 +1285,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LaserBlaster
       objectReference: {fileID: 0}
-    - target: {fileID: 8872208393699015187, guid: 22a68fcd5894195409667a0d25ba696b, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8872208393699015187, guid: 22a68fcd5894195409667a0d25ba696b, type: 3}
-      propertyPath: _muzzlePoint
-      value: 
-      objectReference: {fileID: 1159688920}
-    - target: {fileID: 8872208393699015187, guid: 22a68fcd5894195409667a0d25ba696b, type: 3}
-      propertyPath: _playerInput
-      value: 
-      objectReference: {fileID: 1670406631}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22a68fcd5894195409667a0d25ba696b, type: 3}
 --- !u!4 &6918280818247372852 stripped
