@@ -49,8 +49,28 @@ public abstract class AimableWeapon : MonoBehaviour
     {
         get
         {
+            // Try to find in parent
+            if ( _playerInput == null && this.transform.parent != null )
+                _playerInput = this.GetComponentInParent<PlayerInput> ();
+
+            // Try to find in parent's parent
+            if ( _playerInput == null && this.transform.parent.parent != null)
+                _playerInput = this.transform.parent.GetComponentInParent<PlayerInput> ();
+
+            // Try to find here (this)
             if ( _playerInput == null )
+                _playerInput = this.GetComponent<PlayerInput> ();
+
+            // Try to find in parent's parent's parent
+            if ( _playerInput == null && this.transform.parent.parent.parent != null)
+                _playerInput = this.transform.parent.parent.GetComponentInParent<PlayerInput> ();
+
+            // Try to find anywhere
+            if ( _playerInput == null )
+            {
+                Debug.LogWarning ($"{nameof(AimableWeapon)}: PlayerInput script could not be found. Using first occurence in scene, which might be wrong.");
                 _playerInput = GameObject.FindObjectOfType<PlayerInput> ();
+            }
 
             return _playerInput;
         }
