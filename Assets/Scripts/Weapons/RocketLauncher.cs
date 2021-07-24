@@ -14,14 +14,22 @@ public class RocketLauncher : DualBarrelWeapon
     {
         if ( fireButtonPressed && ProjectilePrefab != null )
         {
-            Instantiate (ProjectilePrefab, MuzzlePoint);
-            await DelayedSpawnAsync ();
+            SpawnRocket (hitInfo.transform, MuzzlePoint);
+            await DelayedSpawnRocketAsync (hitInfo.transform, SecondMuzzlePoint);
         }
     }
 
-    private async Task DelayedSpawnAsync ()
+    private void SpawnRocket(Transform target, Transform parent)
+    {
+        RocketProjectile rocketProjectile = (Instantiate (ProjectilePrefab, parent.position, parent.rotation)).GetComponent<RocketProjectile>();
+
+        if ( transform != null && transform.GetComponent<Driving>())
+            rocketProjectile.Target = transform;
+    }
+
+    private async Task DelayedSpawnRocketAsync (Transform target, Transform parentToInstantiateUnder)
     {
         await Task.Delay (_projectileOffsetMilliseconds);
-        Instantiate (ProjectilePrefab, SecondMuzzlePoint);
+        SpawnRocket (target, parentToInstantiateUnder);
     }
 }
