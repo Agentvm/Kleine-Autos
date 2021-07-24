@@ -15,6 +15,9 @@ public abstract class AimableWeapon : MonoBehaviour
     [SerializeField]
     [Tooltip("The Point where the projectile will be spawned")]
     private Transform _muzzlePoint;
+    [SerializeField]
+    [Tooltip("(optional) The Transform which to turn. Defaults to this")]
+    private Transform _turningPoint;
 
     // Private Fields
     // this should become the current aim position by using a Raycast
@@ -91,9 +94,17 @@ public abstract class AimableWeapon : MonoBehaviour
         FireButtonPressed = true;
     }
 
+    private void Aim()
+    {
+        if ( _turningPoint == null )
+            this.transform.LookAt (CurrentAimPosition);
+        else
+            _turningPoint.LookAt (CurrentAimPosition);
+    }
+
     private void FixedUpdate ()
     {
-        this.transform.LookAt (CurrentAimPosition);
+        Aim ();
         FrameUpdate (FireButtonPressed, CurrentMousePosition);
         FireButtonPressed = false;
     }
