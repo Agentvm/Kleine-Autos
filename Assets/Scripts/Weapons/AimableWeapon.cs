@@ -8,16 +8,12 @@ public abstract class AimableWeapon : MonoBehaviour
 {
     public const float MaxRaycastDistance = 120f;
 
-    // This bulk could rather be moved to a ProjectileWeapon subclass
-    // Serialized Fields
-    [SerializeField]
-    private GameObject _projectilePrefab;
-    [SerializeField]
-    [Tooltip("The Point where the projectile will be spawned")]
-    private Transform _muzzlePoint;
     [SerializeField]
     [Tooltip("(optional) The Transform which to turn. Defaults to this")]
     private Transform _turningPoint;
+    [SerializeField]
+    [Tooltip("The Point where the projectile will be spawned")]
+    private Transform _muzzlePoint;
 
     // Private Fields
     // this should become the current aim position by using a Raycast
@@ -25,11 +21,10 @@ public abstract class AimableWeapon : MonoBehaviour
     private bool _fireButtonPressed;
     private Ray _ray;
     private RaycastHit _raycastHit;
-    
+
 
     // Properties
-    public GameObject ProjectilePrefab { get => _projectilePrefab; }
-    public Transform MuzzlePoint { get => _muzzlePoint;}
+    public Transform MuzzlePoint { get => _muzzlePoint; }
     public Vector2 CurrentMousePosition { get => MouseAction.ReadValue<Vector2> (); }
     public bool FireButtonPressed { get => _fireButtonPressed; private set => _fireButtonPressed = value; }
     public Vector3 CurrentAimPosition
@@ -105,9 +100,13 @@ public abstract class AimableWeapon : MonoBehaviour
     private void FixedUpdate ()
     {
         Aim ();
-        FrameUpdate (FireButtonPressed, CurrentMousePosition);
+        FrameUpdate (FireButtonPressed, _raycastHit);
+
+        // Reset variables for next frame
         FireButtonPressed = false;
+        _raycastHit = default;
     }
 
-    protected abstract void FrameUpdate ( bool fireButtonPressed, Vector2 currentMousePosition );
+    // Let the subclass implement the firing behaviour
+    protected abstract void FrameUpdate ( bool fireButtonPressed, RaycastHit hitInfo );
 }

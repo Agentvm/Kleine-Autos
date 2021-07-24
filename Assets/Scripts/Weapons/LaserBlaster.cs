@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserBlaster : AimableWeapon
+public class LaserBlaster : ProjectileWeapon
 {
-    protected override void FrameUpdate ( bool fireButtonPressed, Vector2 currentMousePosition )
+    protected override void FrameUpdate ( bool fireButtonPressed, RaycastHit hitInfo )
     {
         if ( fireButtonPressed && ProjectilePrefab != null )
             Instantiate (ProjectilePrefab, MuzzlePoint);
