@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UnityEngine;
 using System.Threading.Tasks;
 
@@ -24,15 +23,33 @@ public abstract class ProjectileBase : MonoBehaviour
 
     // Variables
     private float _currentTime = 0f;
+    private int? _ownerPlayerIndex = null;
 
     // Properties
     public float ProjectileSpeed { get => _projectileSpeed; private set => _projectileSpeed = value; }
     public int Damage { get => _damage; private set => _damage = value; }
     public float DestructionTime { get => _destructionTime; private set => _destructionTime = value; }
+    public int? OwnerPlayerIndex { get => _ownerPlayerIndex; set => _ownerPlayerIndex = value; }
+
+    // CachedProperties
+    #region CachedProperties
+    private Collider _collider = null;
+    public Collider Collider
+    {
+        get
+        {
+            if ( _collider == null )
+                _collider = this.GetComponent<Collider> ();
+
+            return _collider;
+        }
+    }
+    #endregion
 
     private void Start ()
     {
         _currentTime = Time.time;
+        //Collider.enabled = false; // Disable until collision with Weapon has ended
     }
 
     // Update is called once per frame
@@ -50,9 +67,18 @@ public abstract class ProjectileBase : MonoBehaviour
     // Triggered by the attached Collider Component
     private async void OnCollisionEnter ( Collision collision )
     {
-        Driving otherPlayer = collision.transform.GetComponent<Driving>();
-        if ( otherPlayer )
-            Debug.Log ($"Did {Damage} Damage");
+        if ( collision.transform.GetComponent<AimableWeapon> () )
+            return;
+
+        if ( this.OwnerPlayerIndex == null )
+            Debug.LogWarning ($"{nameof (ProjectileBase)}: OwnerPlayerIndex is not set! Please make use of the SpawnProjectile in your script derived from >{nameof(ProjectileWeapon)}<");
+
+        PlayerInput otherPlayer = collision.transform.GetComponent<PlayerInput>();
+        if ( otherPlayer != null && otherPlayer.playerIndex != this.OwnerPlayerIndex)
+        {
+            // Actually subtract damage here
+            Debug.Log ($"Did {Damage} Damage to {otherPlayer.gameObject.name}");
+        }
 
         await DelayedDestructionAsync ();
     }
@@ -65,7 +91,7 @@ public abstract class ProjectileBase : MonoBehaviour
     }
 
     /// <summary>
-    /// Leave empty if not needed.
+    /// Leave empty if not needed. You'll need 'using System.Threading.Tasks;' otherwise.
     /// Use
     ///     await Task.Delay (delayMilliseconds);
     /// to add a simple delay. use await in an async function to actually wait for a process to finish (https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/await).

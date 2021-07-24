@@ -13,4 +13,16 @@ public abstract class ProjectileWeapon : AimableWeapon
     private GameObject _projectilePrefab;
 
     public GameObject ProjectilePrefab { get => _projectilePrefab; }
+
+    /// <summary>
+    /// Use this Instantiation to be sure to set the PlayerIndex!
+    /// </summary>
+    protected virtual ProjectileBase SpawnProjectile (Vector3 position, Quaternion rotation)
+    {
+        // Calling with position & rotation avoids setting Muzzle Point as Parent
+        ProjectileBase projectile = Instantiate (ProjectilePrefab, position, rotation).GetComponent<ProjectileBase>();
+        projectile.OwnerPlayerIndex = PlayerInput.playerIndex;
+
+        return projectile;
+    }
 }

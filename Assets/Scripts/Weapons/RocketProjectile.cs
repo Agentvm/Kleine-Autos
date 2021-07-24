@@ -27,7 +27,6 @@ public class RocketProjectile : ProjectileBase
 
     protected override async Task PreDestructionBehaviourAsync ()
     {
-        Debug.Log ("Pre Rocket Destruction");
         await Task.CompletedTask;
     }
 }

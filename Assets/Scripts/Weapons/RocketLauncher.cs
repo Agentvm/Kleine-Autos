@@ -4,8 +4,13 @@ using UnityEngine;
 using System.Threading;
 using System.Threading.Tasks;
 
-public class RocketLauncher : DualBarrelWeapon
+public class RocketLauncher : ProjectileWeapon
 {
+    [SerializeField]
+    [Tooltip("The Point where the second projectile will be spawned")]
+    private Transform _secondMuzzlePoint;
+
+    public Transform SecondMuzzlePoint { get => _secondMuzzlePoint; }
     [SerializeField]
     [Range(0,1000)]
     private int _projectileOffsetMilliseconds = 300;
@@ -21,7 +26,7 @@ public class RocketLauncher : DualBarrelWeapon
 
     private void SpawnRocket(Transform target, Transform parent)
     {
-        RocketProjectile rocketProjectile = (Instantiate (ProjectilePrefab, parent.position, parent.rotation)).GetComponent<RocketProjectile>();
+        RocketProjectile rocketProjectile = SpawnProjectile (MuzzlePoint.position, MuzzlePoint.rotation) as RocketProjectile;
 
         if ( transform != null && transform.GetComponent<Driving>())
             rocketProjectile.Target = transform;
