@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
+/// <summary>
+/// Use this base class to create Weapon behaviours
+/// </summary>
 public abstract class AimableWeapon : MonoBehaviour
 {
     public const float MaxRaycastDistance = 120f;
