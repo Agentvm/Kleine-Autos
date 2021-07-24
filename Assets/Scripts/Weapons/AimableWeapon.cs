@@ -22,8 +22,9 @@ public abstract class AimableWeapon : MonoBehaviour
 
     // Properties
     public GameObject ProjectilePrefab { get => _projectilePrefab; }
-    protected Vector3 CurrentMousePosition { get => MouseAction.ReadValue<Vector2> (); }
     public Transform MuzzlePoint { get => _muzzlePoint;}
+    protected Vector3 CurrentMousePosition { get => MouseAction.ReadValue<Vector2> (); }
+    public bool FireButtonPressed { get => _fireButtonPressed; private set => _fireButtonPressed = value; }
 
     // CachedProperties
     #region CachedPropertires
@@ -75,13 +76,13 @@ public abstract class AimableWeapon : MonoBehaviour
 
     private void ShotsFired ( InputAction.CallbackContext obj )
     {
-        _fireButtonPressed = true;
+        FireButtonPressed = true;
     }
 
     private void FixedUpdate ()
     {
-        Debug.Log ("Fire: " + _fireButtonPressed);
-        FrameUpdate (_fireButtonPressed, CurrentMousePosition);
+        FrameUpdate (FireButtonPressed, CurrentMousePosition);
+        FireButtonPressed = false;
     }
 
     protected abstract void FrameUpdate ( bool fireButtonPressed, Vector2 currentMousePosition );
