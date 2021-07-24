@@ -6,7 +6,9 @@ using UnityEngine.InputSystem;
 
 public abstract class AimableWeapon : MonoBehaviour
 {
-    // This bulk could rather be moved to a projectileWeapon subclass
+    public const float MaxRaycastDistance = 120f;
+
+    // This bulk could rather be moved to a ProjectileWeapon subclass
     // Serialized Fields
     [SerializeField]
     private GameObject _projectilePrefab;
@@ -18,12 +20,25 @@ public abstract class AimableWeapon : MonoBehaviour
     // this should become the current aim position by using a Raycast
     private Vector3 currentMousePosition;
     private bool _fireButtonPressed;
+    private Ray _ray;
+    private RaycastHit _raycastHit;
+    
 
     // Properties
     public GameObject ProjectilePrefab { get => _projectilePrefab; }
     public Transform MuzzlePoint { get => _muzzlePoint;}
-    protected Vector3 CurrentMousePosition { get => MouseAction.ReadValue<Vector2> (); }
+    public Vector2 CurrentMousePosition { get => MouseAction.ReadValue<Vector2> (); }
     public bool FireButtonPressed { get => _fireButtonPressed; private set => _fireButtonPressed = value; }
+    public Vector3 CurrentAimPosition
+    {
+        get
+        {
+            _ray = Camera.main.ScreenPointToRay (CurrentMousePosition);
+            Physics.Raycast (_ray, out _raycastHit, MaxRaycastDistance);
+
+            return _raycastHit.point;
+        }
+    }
 
     // CachedProperties
     #region CachedPropertires
@@ -78,6 +93,7 @@ public abstract class AimableWeapon : MonoBehaviour
 
     private void FixedUpdate ()
     {
+        this.transform.LookAt (CurrentAimPosition);
         FrameUpdate (FireButtonPressed, CurrentMousePosition);
         FireButtonPressed = false;
     }
