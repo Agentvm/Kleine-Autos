@@ -3,21 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
+/// <summary>
+/// Use this base class to create Weapon behaviours
+/// </summary>
 public abstract class AimableWeapon : MonoBehaviour
 {
+    // Constant
     public const float MaxRaycastDistance = 120f;
 
-    // This bulk could rather be moved to a ProjectileWeapon subclass
     // Serialized Fields
-    [SerializeField]
-    private GameObject _projectilePrefab;
-    [SerializeField]
-    [Tooltip("The Point where the projectile will be spawned")]
-    private Transform _muzzlePoint;
     [SerializeField]
     [Tooltip("(optional) The Transform which to turn. Defaults to this")]
     private Transform _turningPoint;
+
+    [SerializeField]
+    [Tooltip("The Point where the projectile will be spawned")]
+    private Transform _muzzlePoint;
+
+    [SerializeField]
+    [Tooltip("How much should the Weapon aim upwards from the actual Raycast point?")]
+    private float _zCorrection;
 
     // Private Fields
     // this should become the current aim position by using a Raycast
@@ -25,11 +30,10 @@ public abstract class AimableWeapon : MonoBehaviour
     private bool _fireButtonPressed;
     private Ray _ray;
     private RaycastHit _raycastHit;
-    
+
 
     // Properties
-    public GameObject ProjectilePrefab { get => _projectilePrefab; }
-    public Transform MuzzlePoint { get => _muzzlePoint;}
+    public Transform MuzzlePoint { get => _muzzlePoint; }
     public Vector2 CurrentMousePosition { get => MouseAction.ReadValue<Vector2> (); }
     public bool FireButtonPressed { get => _fireButtonPressed; private set => _fireButtonPressed = value; }
     public Vector3 CurrentAimPosition
@@ -52,8 +56,28 @@ public abstract class AimableWeapon : MonoBehaviour
     {
         get
         {
+            // Try to find in parent
+            if ( _playerInput == null && this.transform.parent != null )
+                _playerInput = this.GetComponentInParent<PlayerInput> ();
+
+            // Try to find in parent's parent
+            if ( _playerInput == null && this.transform.parent.parent != null)
+                _playerInput = this.transform.parent.GetComponentInParent<PlayerInput> ();
+
+            // Try to find here (this)
             if ( _playerInput == null )
+                _playerInput = this.GetComponent<PlayerInput> ();
+
+            // Try to find in parent's parent's parent
+            if ( _playerInput == null && this.transform.parent.parent.parent != null)
+                _playerInput = this.transform.parent.parent.GetComponentInParent<PlayerInput> ();
+
+            // Try to find anywhere
+            if ( _playerInput == null )
+            {
+                Debug.LogWarning ($"{nameof(AimableWeapon)}: PlayerInput script could not be found. Using first occurence in scene, which might be wrong.");
                 _playerInput = GameObject.FindObjectOfType<PlayerInput> ();
+            }
 
             return _playerInput;
         }
@@ -97,17 +121,21 @@ public abstract class AimableWeapon : MonoBehaviour
     private void Aim()
     {
         if ( _turningPoint == null )
-            this.transform.LookAt (CurrentAimPosition);
+            this.transform.LookAt (CurrentAimPosition + Vector3.up * _zCorrection);
         else
-            _turningPoint.LookAt (CurrentAimPosition);
+            _turningPoint.LookAt (CurrentAimPosition + Vector3.up * _zCorrection);
     }
 
     private void FixedUpdate ()
     {
         Aim ();
-        FrameUpdate (FireButtonPressed, CurrentMousePosition);
+        FrameUpdate (FireButtonPressed, _raycastHit);
+
+        // Reset variables for next frame
         FireButtonPressed = false;
+        _raycastHit = default;
     }
 
-    protected abstract void FrameUpdate ( bool fireButtonPressed, Vector2 currentMousePosition );
+    // Let the subclass implement the firing behaviour
+    protected abstract void FrameUpdate ( bool fireButtonPressed, RaycastHit hitInfo );
 }
