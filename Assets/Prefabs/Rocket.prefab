@@ -116,7 +116,7 @@ MonoBehaviour:
   _damage: 8
   _projectileSpeed: 18
   _destructionTime: 10
-  _turningSpeed: 50
+  _turningSpeed: 5
 --- !u!54 &559749476325232986
 Rigidbody:
   m_ObjectHideFlags: 0
