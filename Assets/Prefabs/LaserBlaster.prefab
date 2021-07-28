@@ -42,9 +42,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41979fc74ce9ba14d93a7258f6834259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projectilePrefab: {fileID: 8972571705959149927, guid: e9184f3bdfdd1974cb6dc82de27a75c0, type: 3}
-  _muzzlePoint: {fileID: 4653223960911763172}
   _turningPoint: {fileID: 0}
+  _muzzlePoint: {fileID: 4653223960911763172}
+  _zCorrection: 0
+  _projectilePrefab: {fileID: 5107341641632906320, guid: ca57d9af3e228d5429091b8921420e38, type: 3}
 --- !u!1 &7472470860255481302
 GameObject:
   m_ObjectHideFlags: 0
