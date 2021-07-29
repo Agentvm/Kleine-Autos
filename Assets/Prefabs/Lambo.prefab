@@ -286,7 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 3056037398526406984}
-  _velocity: 60
+  _velocity: 50
   _torque: 100
 --- !u!114 &6579445793984578385
 MonoBehaviour:
