@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -3437864768394693631}
   - component: {fileID: 7348893765821732624}
   - component: {fileID: 1499136268520874297}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LaserBolt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 7356599946675803542}
   - component: {fileID: 6984031866824945410}
   - component: {fileID: 8325169399016656335}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: BoltMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
