@@ -77,6 +77,9 @@ public abstract class ProjectileBase : MonoBehaviour
             await DelayedDestructionAsync ();
             return;
         }
+        // We hit ourselves
+        else if ( otherPlayer != null && otherPlayer.playerIndex == this.OwnerPlayerIndex )
+            return;
         
         // Colliding with own weapon or car, don't destroy
         if ( collision.transform.GetComponent<AimableWeapon> () || collision.transform.GetComponent<PlayerInput>())
