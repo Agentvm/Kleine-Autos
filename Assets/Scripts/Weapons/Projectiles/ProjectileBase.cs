@@ -59,9 +59,16 @@ public abstract class ProjectileBase : MonoBehaviour
 
         // Check for collision with other player
         if ( this.OwnerPlayerIndex == null )
-            Debug.LogWarning ($"{nameof (ProjectileBase)}: OwnerPlayerIndex is not set! Please make use of the SpawnProjectile in your script derived from >{nameof(ProjectileWeapon)}<");
+            Debug.LogWarning ($"{nameof (ProjectileBase)}: OwnerPlayerIndex is not set!" +
+                $"Please make use of the SpawnProjectile() function in your script derived from >{nameof(ProjectileWeapon)}<");
 
+        // Try to get PlayerInput Script to determine if the object hit was a player
+        // Look on parent transform if the script is not found (because the mesh collider may not be on the same object as the car scripts)
         PlayerInput otherPlayer = collision.transform.GetComponent<PlayerInput>();
+        if ( otherPlayer == null && collision.transform.parent != null)
+            otherPlayer = collision.transform.parent.GetComponent<PlayerInput> ();
+
+        // Check if the PlayerInput index is different from ours (see SpawnProjectile() function in ProjectileWeapon.cs")
         if ( otherPlayer != null && otherPlayer.playerIndex != this.OwnerPlayerIndex )
         {
             // Actually subtract damage here
@@ -82,6 +89,7 @@ public abstract class ProjectileBase : MonoBehaviour
     // Give the opportunity to do something before destruction, like playing an animation or spawning a particle
     private async Task DelayedDestructionAsync()
     {
+        // This will be filled in by the derived classes
         await PreDestructionBehaviourAsync ();
         Destroy (this.gameObject);
     }
