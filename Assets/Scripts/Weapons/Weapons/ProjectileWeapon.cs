@@ -21,7 +21,11 @@ public abstract class ProjectileWeapon : AimableWeapon
     {
         // Calling with position & rotation avoids setting Muzzle Point as Parent
         ProjectileBase projectile = Instantiate (ProjectilePrefab, position, rotation).GetComponent<ProjectileBase>();
-        projectile.OwnerPlayerIndex = PlayerInput.playerIndex;
+
+        if ( projectile == null )
+            Debug.LogError ("No Projectile Script is attached to the Projectile Prefab on Weapon " + this.transform.name);
+        else
+            projectile.OwnerPlayerIndex = PlayerInput.playerIndex;
 
         return projectile;
     }

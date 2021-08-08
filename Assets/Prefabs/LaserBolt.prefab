@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -3437864768394693631}
   - component: {fileID: 7348893765821732624}
   - component: {fileID: 1499136268520874297}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LaserBolt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,9 +90,8 @@ GameObject:
   - component: {fileID: 1457081726405819800}
   - component: {fileID: 7356599946675803542}
   - component: {fileID: 6984031866824945410}
-  - component: {fileID: 7708745022925037620}
   - component: {fileID: 8325169399016656335}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: BoltMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,20 +161,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &7708745022925037620
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5953891649158887488}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.50000024
-  m_Height: 2.0000005
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940699}
 --- !u!108 &8325169399016656335
 Light:
   m_ObjectHideFlags: 0
