@@ -21,12 +21,12 @@ public class Driving : MonoBehaviour
 
     void OnMove(InputValue value) {
         _direction = value.Get<Vector2>();
-        Debug.Log("Moving");
+        // Debug.Log("Moving");
     }
 
     void OnJump() {
         _jumping = true;
-        Debug.Log("Jumping");
+        // Debug.Log("Jumping");
     }
 
     void OnCollisionStay(Collision collisionInfo) {
