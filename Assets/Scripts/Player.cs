@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     {
         Debug.Log("Starting Lap");
         CurrentLap++;
-        lastCheckpointPassed = 1;
+        lastCheckpointPassed = 0;
         lapTimerTimestamp = Time.time;
     }
 
@@ -45,15 +45,22 @@ public class Player : MonoBehaviour
             return;
         }
 
-        // Checkpoint 1
-        if(collider.gameObject.name == "Checkpoint1")
+        Checkpoint checkpointScript = collider.transform.GetComponent<Checkpoint>();
+        
+        if(checkpointScript == null)
         {
-            if(lastCheckpointPassed == checkpointCount)
+            return;
+        }
+
+        // Start and Finish line
+        if(checkpointScript.CheckPointNumber == 0)
+        {
+            if(lastCheckpointPassed == checkpointCount - 1)
             {
                 EndLap();
             }
 
-            if(CurrentLap == 0 || lastCheckpointPassed == checkpointCount)
+            if(CurrentLap == 0 || lastCheckpointPassed == checkpointCount - 1)
             {
                 StartLap();
             }
@@ -62,7 +69,7 @@ public class Player : MonoBehaviour
         }
 
         // Other Checkpoints
-        if(collider.gameObject.name == "Checkpoint" + (lastCheckpointPassed+1).ToString())
+        if(checkpointScript.CheckPointNumber == lastCheckpointPassed + 1)
         {
             lastCheckpointPassed++;
             Debug.Log("Checkpoint " + lastCheckpointPassed + " reached");
