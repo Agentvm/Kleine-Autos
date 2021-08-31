@@ -11,6 +11,22 @@ public class Driving : MonoBehaviour
     private bool _jumping = false;
     private bool _grounded = false;
 
+    private bool _steeringDisabled;
+    public bool SteeringDisabled
+    {
+        get => _steeringDisabled;
+        set
+        {
+            this._steeringDisabled = value;
+
+            if (_steeringDisabled)
+            {
+                this._velocity = 0f;
+                this._torque = 0f;
+            }
+        }
+    }
+
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -20,12 +36,14 @@ public class Driving : MonoBehaviour
     }
 
     void OnMove(InputValue value) {
-        _direction = value.Get<Vector2>();
+        if (!SteeringDisabled)
+            _direction = value.Get<Vector2>();
         // Debug.Log("Moving");
     }
 
     void OnJump() {
-        _jumping = true;
+        if (!SteeringDisabled)
+            _jumping = true;
         // Debug.Log("Jumping");
     }
 
