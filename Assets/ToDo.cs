@@ -1,4 +1,11 @@
 /*
+### ToDo
+
+
+### Bugs
+
+
+### Milestones
 Milestone - The First Race:
 - Splitscreen
 - Multiplayer: Enable multiple vehicles (Adapt Drive.cs and the InputModule)
@@ -14,8 +21,9 @@ Milestone - A Visual Impression:
   - Wassershader
 
  
- 
- 
+### Fancy Ideas
+- Pinball cannon (orange press magazine filled with pinballs) that doesn't do much damage, but displaces players
+
  
  
  */
