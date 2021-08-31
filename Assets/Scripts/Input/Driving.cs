@@ -1,63 +1,91 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent (typeof(Rigidbody))]
 public class Driving : MonoBehaviour
 {
-    public Rigidbody _rigidbody; 
-    public float _velocity = 0.0f;
-    public float _torque = 0.0f;
+    [SerializeField]
+    [Tooltip("Maximum speed [m/s]")]
+    private float _maxSpeed = 0.0f;
+    
+    [SerializeField]
+    [Tooltip("Turning speed [degree/s]")]
+    private float _turningSpeed = 0.0f;
+    
+    [SerializeField]
+    [Tooltip("Acceleration [m/s^2]")]
+    private float _acceleration = 0.0f;
+    
+    [SerializeField] 
+    [Tooltip("Penalty multiplicator for turning speed if not grounded")]
+    private float _turningSpeedPenaltyNotGrounded = 0.0f;
 
-    private Vector2 _direction = new Vector2(0.0f, 0.0f);
-    private bool _jumping = false;
-    private bool _grounded = false;
+    [SerializeField] 
+    [Tooltip("Penalty multiplicator for velocity if not grounded")]
+    private float _accelerationPenaltyNotGrounded = 0.0f;
+
+    [SerializeField]
+    [Tooltip("Offset for the car turnpoint from object center")]
+    private Vector3 _turnpointOffset = new Vector3(0.0f, 0.0f, 0.0f); 
+
+    [SerializeField]
+    [Tooltip("Offset of the center of mass from the object center")]
+    private Vector3 _centerOfMassOffset = new Vector3(0.0f, 0.0f, 0.0f);
+
+
+    private Rigidbody _rigidbody = null;
+    private Vector2 _inputDirection = new Vector2(0.0f, 0.0f);
+    private bool _inputJumping = false;
+    private bool _isGrounded = false;
 
     void Start()
     {
+        // offset center of mass to make the car more stable 
         _rigidbody = GetComponent<Rigidbody>();
-        Vector3 massOffset = new Vector3(0.0f, 0.5f, 0.0f);
-        _rigidbody.centerOfMass = _rigidbody.centerOfMass - massOffset;
-        //_rigidbody.ResetCenterOfMass();
-    }
-
-    void OnMove(InputValue value) {
-        _direction = value.Get<Vector2>();
-        // Debug.Log("Moving");
-    }
-
-    void OnJump() {
-        _jumping = true;
-        // Debug.Log("Jumping");
-    }
-
-    void OnCollisionStay(Collision collisionInfo) {
-        _grounded = true;
+        _rigidbody.centerOfMass = _rigidbody.centerOfMass + _centerOfMassOffset;
     }
 
     void FixedUpdate() {
-        Vector3 velocity = new Vector3(0.0f, 0.0f, 0.0f);
+        // calculate actual velocity based on input direction 
+        Vector3 directedAcceleration = _acceleration * _inputDirection.y * transform.forward * Time.deltaTime; 
+        float directedTurningSpeed = _rigidbody.velocity.magnitude * _turningSpeed * _inputDirection.x * Time.deltaTime;
 
-        // Check for upward velocity 
-        if(_jumping) velocity = velocity + 10 * _velocity * transform.up * Time.deltaTime;
-
-        // Check for foward velocity 
-        velocity = velocity + _velocity * _direction.y * transform.forward * Time.deltaTime;
-
-        // Calculate angular velocity based on forward velocity 
-        Vector3 angularVelocity = new Vector3(0.0f, velocity.normalized.magnitude * _torque * _direction.x * Time.deltaTime, 0.0f);
-
-        // Penalty if not grounded 
-        if(!_grounded) {
-            velocity = velocity * 0.1f;
-            angularVelocity = angularVelocity * 0.0f;
+        // calculate a penalty if the car is not grounded 
+        if(!_isGrounded) {
+            directedAcceleration = directedAcceleration * _accelerationPenaltyNotGrounded;
+            directedTurningSpeed = directedTurningSpeed * _turningSpeedPenaltyNotGrounded;
         }
 
-        // Apply velocity to rigid body 
-        _rigidbody.velocity = _rigidbody.velocity + velocity;
-        //_rigidbody.angularVelocity = _rigidbody.angularVelocity  + angularVelocity;
-        transform.Rotate(angularVelocity, Space.Self);
+        // apply rotation and velocity to rigidbody 
+        _rigidbody.velocity = _rigidbody.velocity + directedAcceleration;
+        transform.RotateAround(transform.position + _turnpointOffset, transform.up, directedTurningSpeed);
+
+        // make sure speed does not exceed max speed
+        _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, _maxSpeed);
 
         // reset variables 
-        _jumping = false;
-        _grounded = false;
+        _inputJumping = false;
+        _isGrounded = false;
+    }
+
+    /// <summary>
+    /// Event triggered from Unity InputManager. Receives a Vector2 with the direction as parameter. 
+    /// </summary>
+    void OnMove(InputValue value) {
+        _inputDirection = value.Get<Vector2>();
+    }
+
+    /// <summary>
+    /// Event triggered from Unity InputManager when the jump button is pressed.  
+    /// </summary>
+    void OnJump() {
+        _inputJumping = true;
+    }
+
+    /// <summary>
+    /// Event triggered when the car collides with an object, i.e., when it is grounded.   
+    /// </summary>
+    void OnCollisionStay(Collision collisionInfo) {
+        _isGrounded = true;
     }
 }
