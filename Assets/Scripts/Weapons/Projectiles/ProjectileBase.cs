@@ -10,8 +10,8 @@ public abstract class ProjectileBase : MonoBehaviour
 {
     // Serialized Fields
     [SerializeField]
-    [Range(0, 20)]
-    [Tooltip("Damage when hitting another Player")]
+    [Range (0, 20)]
+    [Tooltip ("Damage when hitting another Player")]
     private int _damage = 6;
 
     [SerializeField]
@@ -19,8 +19,8 @@ public abstract class ProjectileBase : MonoBehaviour
     private float _projectileSpeed = 30f;
 
     [SerializeField]
-    [Range(-1f, 10f)]
-    [Tooltip("Time until projectile disappears")]
+    [Range (-1f, 10f)]
+    [Tooltip ("Time until projectile disappears")]
     private float _destructionTime = 6f;
 
     // Variables
@@ -41,7 +41,7 @@ public abstract class ProjectileBase : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate ()
     {
-        if ( DestructionTime >= 0 && Time.time > _currentTime + DestructionTime )
+        if (DestructionTime >= 0 && Time.time > _currentTime + DestructionTime)
             Destroy (this.transform.gameObject);
 
         FrameUpdate ();
@@ -51,46 +51,49 @@ public abstract class ProjectileBase : MonoBehaviour
     protected abstract void FrameUpdate ();
 
     // Triggered by the attached Collider Component (which has to be set to 'isTrigger', while having a Rigidbody Component which is kinematic)
-    private async void OnTriggerEnter ( Collider collision )
+    private async void OnTriggerEnter (Collider collision)
     {
         // Return if colliding with Projectile
-        if ( collision.transform.GetComponent<ProjectileBase> () )
+        if (collision.transform.GetComponent<ProjectileBase> ())
             return;
 
         // Check for collision with other player
-        if ( this.OwnerPlayerIndex == null )
+        if (this.OwnerPlayerIndex == null)
             Debug.LogWarning ($"{nameof (ProjectileBase)}: OwnerPlayerIndex is not set!" +
-                $"Please make use of the SpawnProjectile() function in your script derived from >{nameof(ProjectileWeapon)}<");
+                $"Please make use of the SpawnProjectile() function in your script derived from >{nameof (ProjectileWeapon)}<");
 
         // Try to get PlayerInput Script to determine if the object hit was a player
         // Look on parent transform if the script is not found (because the mesh collider may not be on the same object as the car scripts)
-        PlayerInput otherPlayer = collision.transform.GetComponent<PlayerInput>();
-        if ( otherPlayer == null && collision.transform.parent != null)
+        PlayerInput otherPlayer = collision.transform.GetComponent<PlayerInput> ();
+        if (otherPlayer == null && collision.transform.parent != null)
             otherPlayer = collision.transform.parent.GetComponent<PlayerInput> ();
 
         // Check if the PlayerInput index is different from ours (see SpawnProjectile() function in ProjectileWeapon.cs")
-        if ( otherPlayer != null && otherPlayer.playerIndex != this.OwnerPlayerIndex )
+        if (otherPlayer != null && otherPlayer.playerIndex != this.OwnerPlayerIndex)
         {
             // Actually subtract damage here
             Debug.Log ($"Did {Damage} Damage to {otherPlayer.gameObject.name}");
+            VehicleStatus otherVehicle = otherPlayer.GetComponent<VehicleStatus> ();
+            if (otherVehicle != null)
+                otherVehicle.DamageVehicle (Damage);
 
-            await DelayedDestructionAsync ();
+            await this.DelayedDestructionAsync ();
             return;
         }
         // We hit ourselves
-        else if ( otherPlayer != null && otherPlayer.playerIndex == this.OwnerPlayerIndex )
+        else if (otherPlayer != null && otherPlayer.playerIndex == this.OwnerPlayerIndex)
             return;
-        
+
         // Colliding with own weapon or car, don't destroy
-        if ( collision.transform.GetComponent<AimableWeapon> () || collision.transform.GetComponent<PlayerInput>())
+        if (collision.transform.GetComponent<AimableWeapon> () || collision.transform.GetComponent<PlayerInput> ())
             return;
 
         // Destroy on Collision after a delay which has to be specified by subclass
-        await DelayedDestructionAsync ();
+        await this.DelayedDestructionAsync ();
     }
 
     // Give the opportunity to do something before destruction, like playing an animation or spawning a particle
-    private async Task DelayedDestructionAsync()
+    private async Task DelayedDestructionAsync ()
     {
         // This will be filled in by the derived classes
         await PreDestructionBehaviourAsync ();
