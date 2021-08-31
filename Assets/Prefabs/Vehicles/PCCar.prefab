@@ -110,6 +110,8 @@ GameObject:
   - component: {fileID: 6263153234655880065}
   - component: {fileID: 6263153234655880064}
   - component: {fileID: 6263153234655880067}
+  - component: {fileID: 7474873596742148442}
+  - component: {fileID: 643328455}
   m_Layer: 0
   m_Name: PCCar
   m_TagString: Untagged
@@ -144,9 +146,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca04d24daef70764283443325aea8113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rigidbody: {fileID: 0}
-  _velocity: 35
-  _torque: 180
+  _maxSpeed: 300
+  _turningSpeed: 10
+  _acceleration: 26
+  _turningSpeedPenaltyNotGrounded: 10
+  _accelerationPenaltyNotGrounded: 10
+  _turnpointOffset: {x: 0, y: 0, z: 0}
+  _centerOfMassOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &6263153234655880064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,6 +199,31 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7474873596742148442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6263153234655880127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62236ba3d71580543a5ea7bf4ca20c43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maximumIntegrity: 55
+--- !u!114 &643328455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6263153234655880127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58ea6eb2a85edd04aa50eae8f6c0e94c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5397588800826636692
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -202,7 +233,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 536851483492996370, guid: 4011f9cdcff8d844e94a239b5ad63d08, type: 3}
       propertyPath: _zCorrection
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 536851483492996370, guid: 4011f9cdcff8d844e94a239b5ad63d08, type: 3}
       propertyPath: _turningPoint

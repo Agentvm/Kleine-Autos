@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 7135389447338804075}
   - component: {fileID: 8953514615409798507}
   - component: {fileID: 1331608090108654527}
+  - component: {fileID: 2335014278021806470}
   m_Layer: 0
   m_Name: Lambo
   m_TagString: Untagged
@@ -125,9 +126,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca04d24daef70764283443325aea8113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rigidbody: {fileID: 0}
-  _velocity: 50
-  _torque: 200
+  _maxSpeed: 410
+  _turningSpeed: 12
+  _acceleration: 35
+  _turningSpeedPenaltyNotGrounded: 10
+  _accelerationPenaltyNotGrounded: 10
+  _turnpointOffset: {x: 0, y: 0, z: 0}
+  _centerOfMassOffset: {x: 0, y: 0, z: 0}
+--- !u!114 &2335014278021806470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310158982200299593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62236ba3d71580543a5ea7bf4ca20c43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maximumIntegrity: 40
 --- !u!1 &1857864974718147699
 GameObject:
   m_ObjectHideFlags: 0
