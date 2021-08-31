@@ -74,7 +74,7 @@ public abstract class ProjectileBase : MonoBehaviour
             // Actually subtract damage here
             Debug.Log ($"Did {Damage} Damage to {otherPlayer.gameObject.name}");
             VehicleStatus otherVehicle = otherPlayer.GetComponent<VehicleStatus> ();
-            if (otherVehicle == null)
+            if (otherVehicle != null)
                 otherVehicle.DamageVehicle (Damage);
 
             await this.DelayedDestructionAsync ();
