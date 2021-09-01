@@ -107,6 +107,17 @@
                 },
                 {
                     "name": "",
+                    "id": "d0576778-6a5a-4fba-9b12-44fc7e9d8a19",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Controller;Keyboard & Mouse",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "db995dfe-5dd0-4133-903a-ea91b7581317",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
@@ -143,6 +154,17 @@
                 {
                     "devicePath": "<Mouse>",
                     "isOptional": true,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Xbox Controller",
+            "bindingGroup": "Xbox Controller",
+            "devices": [
+                {
+                    "devicePath": "<XInputController>",
+                    "isOptional": false,
                     "isOR": false
                 }
             ]
