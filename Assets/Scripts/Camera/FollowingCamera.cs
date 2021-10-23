@@ -9,19 +9,21 @@ public class FollowingCamera : MonoBehaviour
 {
     [SerializeField] 
     [Tooltip("The followed game object.")]
-    public GameObject _followedGameObject = null;
+    private GameObject _followedGameObject = null;
     private Vector3 _cameraOffset = new Vector3(0.0f, 0.0f, 0.0f);
+
+    public GameObject FollowedGameObject { get => _followedGameObject; private set => _followedGameObject = value; }
 
     void Start()
     {
-        Assert.IsTrue(_followedGameObject != null);
-        _cameraOffset = transform.position - _followedGameObject.transform.position;    // calculate offset from camera to game object 
+        Assert.IsTrue(FollowedGameObject != null);
+        _cameraOffset = transform.position - FollowedGameObject.transform.position;    // calculate offset from camera to game object 
     }
 
     void Update()
     {
-        Assert.IsTrue(_followedGameObject != null);
-        transform.position = _followedGameObject.transform.position + _cameraOffset;    // offset camera position from followed object position 
-        transform.LookAt(_followedGameObject.transform, transform.up);                  // orient the camera towards the followed object 
+        Assert.IsTrue(FollowedGameObject != null);
+        transform.position = FollowedGameObject.transform.position + _cameraOffset;    // offset camera position from followed object position 
+        transform.LookAt(FollowedGameObject.transform, transform.up);                  // orient the camera towards the followed object 
     }
 }
