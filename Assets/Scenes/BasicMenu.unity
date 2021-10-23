@@ -946,6 +946,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Panel (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4520015290408987832, guid: 54469db0671300a45b09def161211b80, type: 3}
+      propertyPath: _playerCar
+      value: 
+      objectReference: {fileID: 6263153234655880127, guid: 9b0ba2b4aee753743a834dc41e5cf3bc, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54469db0671300a45b09def161211b80, type: 3}
 --- !u!1 &966243061
@@ -1246,6 +1250,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Panel (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4520015290408987832, guid: 54469db0671300a45b09def161211b80, type: 3}
+      propertyPath: _playerCar
+      value: 
+      objectReference: {fileID: 310158982200299593, guid: 6b2d1706e93d77c41bba9f0bd4134135, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54469db0671300a45b09def161211b80, type: 3}
 --- !u!1 &1609777011
@@ -1529,5 +1537,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Panel
       objectReference: {fileID: 0}
+    - target: {fileID: 4520015290408987832, guid: 54469db0671300a45b09def161211b80, type: 3}
+      propertyPath: _playerCar
+      value: 
+      objectReference: {fileID: 310158982200299593, guid: 6b2d1706e93d77c41bba9f0bd4134135, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54469db0671300a45b09def161211b80, type: 3}

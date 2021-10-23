@@ -2,12 +2,16 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class LoadSceneOnClick : MonoBehaviour
 {
     [SerializeField] private SceneAsset _scene = null;
     private Button _button = null;
     private string _scenePath = "";
+
+    // Events
+    public static event Action RaceStarted;
 
     private void Awake ()
     {
@@ -18,6 +22,12 @@ public class LoadSceneOnClick : MonoBehaviour
 
     private void OnClick ()
     {
+        OnRaceStarted ();
         SceneManager.LoadScene (_scenePath);
+    }
+
+    private void OnRaceStarted()
+    {
+        RaceStarted?.Invoke ();
     }
 }

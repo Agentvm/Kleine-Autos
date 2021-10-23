@@ -12,7 +12,7 @@ public class FollowingCamera : MonoBehaviour
     private GameObject _followedGameObject = null;
     private Vector3 _cameraOffset = new Vector3(0.0f, 0.0f, 0.0f);
 
-    public GameObject FollowedGameObject { get => _followedGameObject; private set => _followedGameObject = value; }
+    public GameObject FollowedGameObject { get => _followedGameObject; set => _followedGameObject = value; }
 
     void Start()
     {
