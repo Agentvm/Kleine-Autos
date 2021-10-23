@@ -11,6 +11,6 @@ public class FollowingCameraInspector : Editor
 
     public void OnSceneGUI() {
         FollowingCamera cam = (FollowingCamera)target; 
-        UnityEditor.Handles.DrawLine(cam.transform.position, cam._followedGameObject.transform.position, 5.0f);
+        UnityEditor.Handles.DrawLine(cam.transform.position, cam.FollowedGameObject.transform.position, 5.0f);
     }
 }
