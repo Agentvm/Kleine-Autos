@@ -16,6 +16,7 @@ public class MenuPanelPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        RaceManager.Reset ();
         LoadSceneOnClick.RaceStarted += AddPlayerConfig;
     }
 

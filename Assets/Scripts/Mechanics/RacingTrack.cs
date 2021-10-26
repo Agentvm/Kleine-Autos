@@ -7,5 +7,5 @@ public class RacingTrack : MonoBehaviour
     [SerializeField]
     List<Transform> _startingPositions = new List<Transform> ();
 
-    public List<Transform> StartingPositions { get => _startingPositions;}
+    public List<Transform> StartPoses { get => _startingPositions;}
 }
