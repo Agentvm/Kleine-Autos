@@ -80,8 +80,8 @@ public class SplitScreen : MonoBehaviour
                     continue;
 
                 Camera camera = cameras[xIndex + yIndex];
-                float xPosition = screenWidth * xIndex;
-                float yPosition = screenHeight * yIndex;
+                float xPosition = screenWidth * yIndex;
+                float yPosition = screenHeight * xIndex;
                 camera.rect = new Rect (xPosition, yPosition, screenWidth, screenHeight);
                 Debug.Log ($"new Rect ({xPosition}, {yPosition}, {screenWidth}, {screenHeight});");
             }
