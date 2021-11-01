@@ -1,23 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuPanelPlayer : MonoBehaviour
 {
+    // Serialized Fields
     [SerializeField]
     private GameObject _playerCar = null;
     [SerializeField]
     private AimableWeapon _playerWeapon = null;
     [SerializeField]
-    int _panelNumber = 0;
+    private Image _iconGamepad = null;
+    [SerializeField]
+    private Image _iconKeyboard = null;
 
-    public int PanelNumber { get => _panelNumber; private set => _panelNumber = value; }
+    // Variables
+    int _playerNumber = 0;
+    
+    
+    // Properties
+    public int PlayerNumber { get => _playerNumber; set => _playerNumber = value; }
 
     // Start is called before the first frame update
     void Start()
     {
         RaceManager.Reset ();
         LoadSceneOnClick.RaceStarted += AddPlayerConfig;
+    }
+
+    public void ShowGamepadIcon (bool showGamepad = true)
+    {
+        _iconGamepad.gameObject.SetActive(showGamepad);
+        _iconKeyboard.gameObject.SetActive(!showGamepad);
     }
 
     private void AddPlayerConfig ()
