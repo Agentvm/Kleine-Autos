@@ -51,6 +51,17 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "",
+                    "id": "68ed5479-972a-49aa-ab73-83a5326df983",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Controller",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "2D",
                     "id": "6d865778-7f90-497c-95dd-963dfdc21db8",
                     "path": "2DVector",
@@ -106,15 +117,59 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "d0576778-6a5a-4fba-9b12-44fc7e9d8a19",
-                    "path": "<Gamepad>/leftStick",
+                    "name": "2D Vector",
+                    "id": "fc4e0297-a149-4648-87ad-c750e86e3e56",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Xbox Controller;Keyboard & Mouse",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "b2775073-5a9e-40bc-b4a1-a5b9a8d53f90",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Controller",
                     "action": "Move",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "932537a3-3ff4-4159-a1b0-814089cf06b8",
+                    "path": "<Gamepad>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Controller",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "bb7eea37-5b66-49e8-9a9d-80521f9cd23e",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Controller",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "753d2c78-ed19-4ad6-a339-18198d29637c",
+                    "path": "<Gamepad>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Controller",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -129,6 +184,17 @@
                 },
                 {
                     "name": "",
+                    "id": "7d0b591f-f06d-4133-89ce-b268cf3e5da8",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Controller",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "063d4918-3e0d-43ed-9b35-ab2c1ed86dd3",
                     "path": "<Mouse>/position",
                     "interactions": "",
@@ -137,6 +203,61 @@
                     "action": "MousePosition",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Right Stick",
+                    "id": "8d72f014-2beb-40df-95c2-4803369e33f8",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MousePosition",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "873c2ae4-75fd-49aa-9f96-bfc4537dfd7d",
+                    "path": "<Gamepad>/rightStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Controller",
+                    "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "09cca8f2-0af0-4c29-ae39-9401ee5120b4",
+                    "path": "<Gamepad>/rightStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Controller",
+                    "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "a16ab376-85a6-4be9-aa26-0e6f5ff0ccb5",
+                    "path": "<Gamepad>/rightStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Controller",
+                    "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "0abe6832-f9bd-49a3-987d-647bd7249e6e",
+                    "path": "<Gamepad>/rightStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Controller",
+                    "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }
