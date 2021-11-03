@@ -50,7 +50,6 @@ public class SplitScreen : MonoBehaviour
         }
 
         // Split Screen
-        Debug.Log ($"Mathf.CeilToInt ({cameras.Count} / {2}) = {Mathf.CeilToInt ((float)cameras.Count / 2f)}");
         int splits = Mathf.CeilToInt ((float)cameras.Count / 2f);
         if (cameras.Count == 1)
             splits = 0;
@@ -69,9 +68,6 @@ public class SplitScreen : MonoBehaviour
             screenHeight = 1f / splits;
         }
 
-        Debug.Log ("splits: " + splits);
-        Debug.Log ("cameras.Count: " + cameras.Count);
-
         for (int xIndex = 0; xIndex < splits; xIndex++)
         {
            for (int yIndex = 0; yIndex < Mathf.Max(splits, 2); yIndex++)
@@ -80,10 +76,9 @@ public class SplitScreen : MonoBehaviour
                     continue;
 
                 Camera camera = cameras[xIndex + yIndex];
-                float xPosition = screenWidth * xIndex;
-                float yPosition = screenHeight * yIndex;
+                float xPosition = screenWidth * yIndex;
+                float yPosition = screenHeight * xIndex;
                 camera.rect = new Rect (xPosition, yPosition, screenWidth, screenHeight);
-                Debug.Log ($"new Rect ({xPosition}, {yPosition}, {screenWidth}, {screenHeight});");
             }
         }
     }

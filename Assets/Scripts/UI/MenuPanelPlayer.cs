@@ -1,27 +1,51 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class MenuPanelPlayer : MonoBehaviour
 {
+    // Serialized Fields
     [SerializeField]
     private GameObject _playerCar = null;
     [SerializeField]
     private AimableWeapon _playerWeapon = null;
     [SerializeField]
-    int _panelNumber = 0;
+    private Image _iconGamepad = null;
+    [SerializeField]
+    private Image _iconKeyboard = null;
 
-    public int PanelNumber { get => _panelNumber; private set => _panelNumber = value; }
+    // Properties
+    InputDevice _inputDevice = null;
+    public InputDevice InputDevice { get => _inputDevice; set => _inputDevice = value; }
 
-    // Start is called before the first frame update
-    void Start()
+    // Events
+    public static event Action MenuPanelCountChanged;
+
+    public void ShowGamepadIcon(bool showGamepad = true)
     {
-        RaceManager.Reset ();
-        LoadSceneOnClick.RaceStarted += AddPlayerConfig;
+        _iconGamepad.gameObject.SetActive(showGamepad);
+        _iconKeyboard.gameObject.SetActive(!showGamepad);
     }
 
-    private void AddPlayerConfig ()
+    public void RegisterPlayerConfig()
     {
-        RaceManager.PlayerGameConfigurations.Add (new PlayerGameConfig (_playerCar, _playerWeapon));
+        Debug.Log("Player Config Added");
+        RaceManager.PlayerGameConfigurations.Add(new PlayerGameConfig(_playerCar, _playerWeapon));
+    }
+
+    private void OnEnable()
+    {
+        OnMenuPanelCountChanged();
+    }
+
+    private void OnDestroy()
+    {
+        OnMenuPanelCountChanged();
+    }
+
+    void OnMenuPanelCountChanged()
+    {
+        MenuPanelCountChanged?.Invoke();
     }
 }
