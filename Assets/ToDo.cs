@@ -21,6 +21,26 @@ Milestone - A Visual Impression:
   - Assets im Assetstore finden <= Laas
     (https://assetstore.unity.com/packages/3d/environments/landscapes/free-rocks-19288?free=true&q=rocks&orderBy=1 ) oder selber bauen
   - Wassershader
+  
+Milestone - Eargasms & Audio
+- Find sounds for mutliple sources
+    - motor sounds
+    - explosions
+    - screeching tires
+    - mg's, rocket launchers, and other weapons
+- Implement these sound by planning and creating an audio system
+
+Milestone - LAN Multiplayer <= FloFloFloFloFlo
+- We want this game to be played in local networks. Do it, Flo!
+
+Milestone - I build my own friends
+- Check out different AI approaches
+    - Track-Guided (based on the spline of the track)
+    - Unity Nav-mesh based
+- Test approaches
+- Decide for an approach and plan its implementation
+- Implement the approach
+- Add AI to the Race Setup Screen
 
 Milestone - Extended Racing Gameplay
 - Stone Avalanche
@@ -29,8 +49,6 @@ Milestone - Extended Racing Gameplay
 - Drawbridges
 - Need for Speed: Triggered Obstacles (Players can activate to create diversion)
 
-Milestone - LAN Multiplayer <= FloFloFloFloFlo
-- We want this game to be played in local networks. Do it, Flo!
 
 Milestone - Race Modes
 - Team (no team damage)
