@@ -16,9 +16,7 @@ public class MainMenu : MonoBehaviour
 
     // Variables
     private string _scenePath = "";
-
-    // Events
-    public static event Action RaceStarted;
+    private List<MenuPanelPlayer> _playerPanels = new List<MenuPanelPlayer>();
 
     private void Awake()
     {
@@ -49,24 +47,26 @@ public class MainMenu : MonoBehaviour
             CreateMenuPanel(keyboard);
         }
 
+        // Listen for Devices dis- or reconnecting
         InputSystem.onDeviceChange += InputSystem_onDeviceChange;
-    }
-
-    private void OnClick()
-    {
-        OnRaceStarted();
-        SceneManager.LoadScene(_scenePath);
-    }
-
-    private void OnRaceStarted()
-    {
-        RaceStarted?.Invoke();
     }
 
     void CreateMenuPanel(InputDevice inputDevice)
     {
         MenuPanelPlayer menuPanelPlayer = Instantiate(_playerPanelPrefab, _playerGridLayout).GetComponent<MenuPanelPlayer>();
         menuPanelPlayer.ShowGamepadIcon(inputDevice is Gamepad);
+        menuPanelPlayer.InputDevice = inputDevice;
+        _playerPanels.Add(menuPanelPlayer);
+    }
+
+    void RemoveMenuPanel(InputDevice inputDevice)
+    {
+        MenuPanelPlayer panelToRemove = _playerPanels.FirstOrDefault(panel => panel.InputDevice == inputDevice);
+        if (panelToRemove != default)
+        {
+            Destroy(panelToRemove.gameObject);
+            _playerPanels.Remove(panelToRemove);
+        }
     }
 
     private void InputSystem_onDeviceChange(InputDevice device, InputDeviceChange modeChange)
@@ -74,13 +74,14 @@ public class MainMenu : MonoBehaviour
         switch (modeChange)
         {
             case InputDeviceChange.Added:
-                // New Device.
+                CreateMenuPanel(device);
                 break;
             case InputDeviceChange.Disconnected:
-                // Device got unplugged.
+                RemoveMenuPanel(device);
                 break;
             case InputDeviceChange.Reconnected:
-                // Plugged back in.
+                // Somehow, this is triggered in Addition to InputDeviceChange.Added; therefore disabled
+                //CreateMenuPanel(device);
                 break;
             case InputDeviceChange.Removed:
                 // Remove from Input System entirely; by default, Devices stay in the system once discovered.
@@ -89,5 +90,12 @@ public class MainMenu : MonoBehaviour
                 // See InputDeviceChange reference for other event types.
                 break;
         }
+    }
+
+    private void OnClick()
+    {
+        foreach (MenuPanelPlayer panel in _playerPanels)
+            panel.RegisterPlayerConfig();
+        SceneManager.LoadScene(_scenePath);
     }
 }

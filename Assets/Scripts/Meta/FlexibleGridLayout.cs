@@ -7,21 +7,27 @@ using UnityEngine.UI;
 public class FlexibleGridLayout : MonoBehaviour
 {
     private GridLayoutGroup _gridLayoutGroup = null;
+    private RectTransform _gridRectTransform = null;
 
     private async void Start()
     {
+        // Get Components
         _gridLayoutGroup = this.GetComponent<GridLayoutGroup>();
+        _gridRectTransform = this.GetComponent<RectTransform>();
+
+        MenuPanelPlayer.MenuPanelCountChanged += RefreshLayoutGroup;
+
+        // Start first layout (wait for the GridLayoutGroup to resize)
         await Task.Delay(50);
-        InitializeLayoutGroup();
+        RefreshLayoutGroup();
     }
 
     // Start is called before the first frame update
-    void InitializeLayoutGroup()
+    void RefreshLayoutGroup()
     {
         // Measure self
-        RectTransform gridRectTransform = this.GetComponent<RectTransform>();
-        float gridHeight = gridRectTransform.rect.height;
-        float gridWidth = gridRectTransform.rect.width;
+        float gridHeight = _gridRectTransform.rect.height;
+        float gridWidth = _gridRectTransform.rect.width;
 
         // Count today's Children
         List<RectTransform> childRects = new List<RectTransform>();

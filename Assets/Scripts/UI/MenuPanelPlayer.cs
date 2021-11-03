@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class MenuPanelPlayer : MonoBehaviour
@@ -15,27 +15,37 @@ public class MenuPanelPlayer : MonoBehaviour
     [SerializeField]
     private Image _iconKeyboard = null;
 
-    // Variables
-    int _playerNumber = 0;
-    
     // Properties
-    public int PlayerNumber { get => _playerNumber; set => _playerNumber = value; }
+    InputDevice _inputDevice = null;
+    public InputDevice InputDevice { get => _inputDevice; set => _inputDevice = value; }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        MainMenu.RaceStarted += AddPlayerConfig;
-    }
+    // Events
+    public static event Action MenuPanelCountChanged;
 
-    public void ShowGamepadIcon (bool showGamepad = true)
+    public void ShowGamepadIcon(bool showGamepad = true)
     {
         _iconGamepad.gameObject.SetActive(showGamepad);
         _iconKeyboard.gameObject.SetActive(!showGamepad);
     }
 
-    private void AddPlayerConfig ()
+    public void RegisterPlayerConfig()
     {
         Debug.Log("Player Config Added");
-        RaceManager.PlayerGameConfigurations.Add (new PlayerGameConfig (_playerCar, _playerWeapon));
+        RaceManager.PlayerGameConfigurations.Add(new PlayerGameConfig(_playerCar, _playerWeapon));
+    }
+
+    private void OnEnable()
+    {
+        OnMenuPanelCountChanged();
+    }
+
+    private void OnDestroy()
+    {
+        OnMenuPanelCountChanged();
+    }
+
+    void OnMenuPanelCountChanged()
+    {
+        MenuPanelCountChanged?.Invoke();
     }
 }
