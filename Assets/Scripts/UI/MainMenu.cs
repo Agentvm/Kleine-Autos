@@ -1,12 +1,35 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] RectTransform _playerGridLayout = null;
     [SerializeField] GameObject _playerPanelPrefab = null;
+    [SerializeField] private SceneAsset _scene = null;
+    [SerializeField] private Button _startButton = null;
+
+    // Variables
+    private string _scenePath = "";
+
+    // Events
+    public static event Action RaceStarted;
+
+    private void Awake()
+    {
+        _scenePath = AssetDatabase.GetAssetPath(_scene);
+        this._startButton.onClick.AddListener(OnClick);
+    }
+
+    private void OnEnable()
+    {
+        RaceManager.Reset();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +52,18 @@ public class MainMenu : MonoBehaviour
         InputSystem.onDeviceChange += InputSystem_onDeviceChange;
     }
 
-    void CreateMenuPanel (InputDevice inputDevice)
+    private void OnClick()
+    {
+        OnRaceStarted();
+        SceneManager.LoadScene(_scenePath);
+    }
+
+    private void OnRaceStarted()
+    {
+        RaceStarted?.Invoke();
+    }
+
+    void CreateMenuPanel(InputDevice inputDevice)
     {
         MenuPanelPlayer menuPanelPlayer = Instantiate(_playerPanelPrefab, _playerGridLayout).GetComponent<MenuPanelPlayer>();
         menuPanelPlayer.ShowGamepadIcon(inputDevice is Gamepad);
@@ -55,11 +89,5 @@ public class MainMenu : MonoBehaviour
                 // See InputDeviceChange reference for other event types.
                 break;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

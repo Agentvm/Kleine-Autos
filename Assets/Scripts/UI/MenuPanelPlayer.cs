@@ -18,15 +18,13 @@ public class MenuPanelPlayer : MonoBehaviour
     // Variables
     int _playerNumber = 0;
     
-    
     // Properties
     public int PlayerNumber { get => _playerNumber; set => _playerNumber = value; }
 
     // Start is called before the first frame update
     void Start()
     {
-        RaceManager.Reset ();
-        LoadSceneOnClick.RaceStarted += AddPlayerConfig;
+        MainMenu.RaceStarted += AddPlayerConfig;
     }
 
     public void ShowGamepadIcon (bool showGamepad = true)
@@ -37,6 +35,7 @@ public class MenuPanelPlayer : MonoBehaviour
 
     private void AddPlayerConfig ()
     {
+        Debug.Log("Player Config Added");
         RaceManager.PlayerGameConfigurations.Add (new PlayerGameConfig (_playerCar, _playerWeapon));
     }
 }

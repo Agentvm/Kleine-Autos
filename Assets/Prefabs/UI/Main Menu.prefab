@@ -351,7 +351,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7118041929891739951}
-  - component: {fileID: 7118041929891739948}
   - component: {fileID: 7118041929891739939}
   - component: {fileID: 7118041929891739938}
   - component: {fileID: 7118041929891739949}
@@ -382,19 +381,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -600, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7118041929891739948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7118041929891739950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff5fbc349281a8d4bb830c74b70c89e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _scene: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
 --- !u!222 &7118041929891739939
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -742,3 +728,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerGridLayout: {fileID: 7118041929846506546}
   _playerPanelPrefab: {fileID: 2148656068307805611, guid: 54469db0671300a45b09def161211b80, type: 3}
+  _scene: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
+  _startButton: {fileID: 7118041929891739949}
