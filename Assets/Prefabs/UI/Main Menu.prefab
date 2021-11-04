@@ -68,14 +68,14 @@ MonoBehaviour:
   m_text: Start Race
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3946985524
-  m_fontColor: {r: 0.20392157, g: 0.21960784, b: 0.25882354, a: 0.92156863}
+    rgba: 4282529844
+  m_fontColor: {r: 0.20392157, g: 0.21960784, b: 0.25882354, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -540,8 +540,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4282215836
-  m_fontColor: {r: 0.6132076, g: 0.42906496, b: 0.24007654, a: 1}
+    rgba: 4281753479
+  m_fontColor: {r: 0.5283019, g: 0.374118, b: 0.21181916, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
